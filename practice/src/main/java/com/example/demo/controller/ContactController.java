@@ -1,44 +1,36 @@
+
 //このクラスのパッケージを表しています。
 package com.example.demo.controller;
 
 //ここから必要なパッケージをインストールしています。
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.example.demo.data.ContactData;
 //ここまで必要なパッケージをインストールしています。
 
 @Controller //システムに「このクラスはコントローラだよ！認識しておいてね！」と宣言します。
 public class ContactController {
-	@PostMapping("/contact") //HTTPのPOSTリクエストを処理するメソッドを表します。
-	public ModelAndView contact(@RequestParam("lastName") String lastName, //コントローラーメソッドがビューにデータを渡すために使用されるクラスです。
-			//@RequestParamはHTTPリクエストのパラメータをコントローラメソッドのパラメータとしてマッピングするために使用されます。
-			//今回の場合、@RequestParamで渡されるパラメーターは、contact.htmlファイルで実装したフォームのinputタグやselectタグの値を受け取っています。
-			@RequestParam("firstName") String firstName,
-			@RequestParam("email") String email,
-			@RequestParam("phone") String phone,
-			@RequestParam("zipCode") String zipCode,
-			@RequestParam("address") String address,
-			@RequestParam("buildingName") String buildingName,
-			@RequestParam("contactType") String contactType,
-			@RequestParam("body") String body,
-			ModelAndView mv) { // 引数にModelAndViewを設定
+    @PostMapping("/contact") //HTTPのPOSTリクエストを処理するメソッドを表します。
+    //@ModelAttributeアノテーションを使って、Dataクラスに定義したオブジェクトをContactControllerクラスのconfirmメソッドの引数に設定します。
+    //具体的に引数は@ModelAttribute ContactData contactDataとしてあげることで、
+    //confirmメソッドの中でcontactData.getLastName()のようにContactDataクラス(Lombokの@Dataアノテーション)の機能を使うことができます。
+    public ModelAndView contact(@ModelAttribute ContactData contactData, ModelAndView mv) {
 
-		// 使用するViewのtemplate名を指定
-		mv.setViewName("confirmation");
+        mv.setViewName("confirmation");
 
-		// templateで表示する要素のキーと値を指定
-		mv.addObject("lastName", lastName);
-		mv.addObject("firstName", firstName);
-		mv.addObject("email", email);
-		mv.addObject("phone", phone);
-		mv.addObject("zipCode", zipCode);
-		mv.addObject("address", address);
-		mv.addObject("buildingName", buildingName);
-		mv.addObject("contactType", contactType);
-		mv.addObject("body", body);
+        mv.addObject("lastName", contactData.getLastName());
+        mv.addObject("firstName", contactData.getFirstName());
+        mv.addObject("email", contactData.getEmail());
+        mv.addObject("phone", contactData.getPhone());
+        mv.addObject("zipCode", contactData.getZipCode());
+        mv.addObject("address", contactData.getAddress());
+        mv.addObject("buildingName", contactData.getBuildingName());
+        mv.addObject("contactType", contactData.getContactType());
+        mv.addObject("body", contactData.getBody());
 
-		// ModelAndViewクラスをreturn
-		return mv;
-	}
+        return mv;
+    }
 }

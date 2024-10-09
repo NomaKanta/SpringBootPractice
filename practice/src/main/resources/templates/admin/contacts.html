@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>お問い合わせ一覧</title>
+</head>
+
+<body>
+	<h1>お問い合わせ一覧</h1>
+	<table class="table table-striped" border="1">
+		<thead>
+			<tr>
+				<th>お問い合わせID</th>
+				<th>姓</th>
+				<th>名</th>
+				<th>お問い合わせ種別</th>
+				<th>作成日時</th>
+				<th>更新日時</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="inquiry : ${inquiries}">
+				<td th:text="${inquiry.id}"></td>
+				<td th:text="${inquiry.lastName}"></td>
+				<td th:text="${inquiry.firstName}"></td>
+				<td th:text="${inquiry.contactType}"></td>
+				<td th:text="${inquiry.createdAt}"></td>
+				<td th:text="${inquiry.updatedAt}"></td>
+				<!-- 詳細ボタン -->
+				<td>
+					<a th:href="@{http://localhost:8080/admin/contacts/:{id}(id=${inquiry.id})}">詳細</a>
+				</td>
+			</tr>
+		<tbody>
+	</table>
+	<!-- ログアウトボタン -->
+	<form th:action="@{/admin/logout}" method="post">
+		<input type="submit" value="ログアウト">
+	</form>
+</body>
+
+</html>

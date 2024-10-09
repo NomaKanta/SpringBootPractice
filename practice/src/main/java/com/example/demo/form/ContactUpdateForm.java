@@ -11,7 +11,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class ContactForm implements Serializable {
+public class ContactUpdateForm implements Serializable {
+
+	private Long id;
+
 	@NotBlank
 	private String lastName;
 
